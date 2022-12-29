@@ -43,25 +43,6 @@ services:
     ports: 
       - "8080:80"
 
-  web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000   
-    container_name: web
-    volumes:
-      - .:/app
-    ports:
-      - 8000:8000
-    links:
-      - postgres
-    depends_on:
-      - migration
-      - redis
-    environment:
-        - DEBUG=1
-        - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-        - CELERY_BROKER=redis://redis:6379/0
-        - CELERY_BACKEND=redis://redis:6379/0
-
 
   migration:
     build: .
@@ -96,7 +77,44 @@ services:
     depends_on:
       - web
 
+  elasticsearch:
+    image: elasticsearch:7.8.1
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000   
+    container_name: web
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+    depends_on:
+      - migration
+      - redis
+      - elasticsearch
+    environment:
+        - DEBUG=1
+        - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+        - CELERY_BROKER=redis://redis:6379/0
+        - CELERY_BACKEND=redis://redis:6379/0
+
+
+
+
 volumes:
   static_volume:
   media_volume:
-
+  
+networks:
+  es-net:
+    driver: bridge

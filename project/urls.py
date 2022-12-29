@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LogoutView
-
+from products.views import PublisherDocumentView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -44,6 +44,7 @@ urlpatterns = [
         'account-email-verification-sent/', TemplateView.as_view(),
         name='account_email_verification_sent',
     ),
+    path('search/' , PublisherDocumentView.as_view({'get': 'list'})),
 
 
     path('swagger<format>.json|.yaml/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

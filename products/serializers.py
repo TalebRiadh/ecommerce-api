@@ -1,6 +1,10 @@
 from rest_framework import serializers
+import json
 
 from .models import Product, ProductCategory
+
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+from .documents import *
 
 class ProductCategoryReadSerializer(serializers.ModelSerializer):
     """
@@ -51,3 +55,23 @@ class CreateProductSerializer(serializers.ModelSerializer):
             nested_serializer.update(nested_instance, nested_data)
 
         return super(CreateProductSerializer, self).update(instance, validated_data)
+
+
+
+
+class NewsDocumentSerializer(DocumentSerializer):
+
+    class Meta(object):
+        """Meta options."""
+        model = Product
+        document = ProductDocument
+        fields = (
+            'name',
+            'desc',
+        )
+        def get_location(self, obj):
+            """Represent location value."""
+            try:
+                return obj.location.to_dict()
+            except:
+                return {}
