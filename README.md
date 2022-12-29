@@ -21,7 +21,6 @@ This is a REST API for an E-commerce service built for fun and learning with Dja
 | *DELETE* | ```/products/{id}/``` | _delete a specific product_|_All users_|
 | *GET* | ```/products/categories``` | _Get all product categories_|_All users_|
 | *GET* | ```/products/categories/{id}/``` | _Get all product of specific category_|_All users_|
-
 | *GET* | ```/orders/``` | _Get all orders_|_All users_|
 | *POST* | ```/orders/``` | _Place an order_|_All users_|
 | *GET* | ```/order/{order_id}/``` | _Retrieve an order_|_Superuser_|
