@@ -15,6 +15,7 @@ services:
     depends_on:
       - web
       - redis
+      - postgres
   redis:
     image: "redis:alpine"
 
@@ -83,5 +84,19 @@ services:
       - postgres
     depends_on:
       - postgres
-  
+
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    depends_on:
+      - web
+
+volumes:
+  static_volume:
+  media_volume:
 
