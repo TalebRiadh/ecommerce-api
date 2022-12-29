@@ -1,0 +1,87 @@
+version: "3.7"
+
+
+services:
+  celery:
+    build: .
+    command: celery -A project worker -l INFO 
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+  redis:
+    image: "redis:alpine"
+
+  postgres:
+    image: postgres
+    container_name: pgdb
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    environment: 
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${NAME}
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    depends_on:
+      - postgres
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports: 
+      - "8080:80"
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000   
+    container_name: web
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+    depends_on:
+      - migration
+      - redis
+    environment:
+        - DEBUG=1
+        - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+        - CELERY_BROKER=redis://redis:6379/0
+        - CELERY_BACKEND=redis://redis:6379/0
+
+
+  migration:
+    build: .
+    image: app
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+    links:
+      - postgres
+    depends_on:
+      - make_migrations
+
+  make_migrations:
+    build: .
+    image: app
+    command: python manage.py makemigrations
+    volumes:
+      - .:/app
+    links:
+      - postgres
+    depends_on:
+      - postgres
+  
+
