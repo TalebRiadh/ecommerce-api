@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
-def catefory_image_path(instance, filename):
+def category_image_path(instance, filename):
     return f'product/category/icons/{instance.name}/{filename}'
 
 def product_image_path(instance, filename):
@@ -15,7 +15,7 @@ def product_image_path(instance, filename):
 
 class ProductCategory(models.Model):
     name = models.CharField(_('Category name'), max_length=100)
-    icon = models.ImageField(upload_to=catefory_image_path, blank=True)
+    icon = models.ImageField(upload_to=category_image_path, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

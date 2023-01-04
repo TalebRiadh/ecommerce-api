@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', 
 
     #third party
     'phonenumbers',
     'rest_framework',
-    'django.contrib.sites',
     'drf_yasg',
     'djoser',
     'dj_rest_auth',
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_nose',
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
+    'debug_toolbar', # new
 
     #local apps
     'authentication',
@@ -110,9 +111,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # new
 ]
 
 ROOT_URLCONF = 'project.urls'
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 TEMPLATES = [
     {
@@ -125,6 +131,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request",
             ],
         },
     },
