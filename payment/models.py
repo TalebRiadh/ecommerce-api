@@ -10,7 +10,7 @@ class Payment(models.Model):
     FAILED = 'F'
 
     STATUS_CHOICES = ((PENDING, _('pending')),
-                    (COMPLETED, _('completed')),
+                     (COMPLETED, _('completed')),
                     (FAILED,    _('failed')))
 
 

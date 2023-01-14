@@ -3,7 +3,7 @@ from django.conf import settings
 
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import  authenticate
+from django.contrib.auth import authenticate
 
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers, status
@@ -32,8 +32,8 @@ class UserRegistrationSerializer(RegisterSerializer):
         allow_blank=False,
         validators=[
             UniqueValidator(
-            queryset=PhoneNumber.objects.all(),
-            message=("A user is already registered with this phone number."))
+            queryset = PhoneNumber.objects.all(),
+            message = ("A user is already registered with this phone number."))
      ])
     
     def validate(self, validated_data):

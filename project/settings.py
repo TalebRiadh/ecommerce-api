@@ -161,7 +161,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('TEST_DB_NAME'),
         'USER': config('USER'),
-        'PASSWORD': config('PASSWORD') ,
+        'PASSWORD': config('PASSWORD'),
         'HOST': config('HOST'),
         'PORT': config('PORT'),
     }

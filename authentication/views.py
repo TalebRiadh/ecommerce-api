@@ -22,13 +22,13 @@ from .serializers import (
     VerifyPhoneNumberSerializer,
     UserSerializer,
     UserLoginSerializer)
-from .models import  PhoneNumber, Address
+from .models import PhoneNumber, Address
 from .permissions import (IsUserAddressOwner)
 
 
 
 User = get_user_model()
-class UserRegisterationAPIView(RegisterView):
+class UserRegistrationAPIView(RegisterView):
     """
     Register new users using phone number or email and password.
     """

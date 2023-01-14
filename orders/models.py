@@ -14,7 +14,7 @@ class Order(models.Model):
     PENDING = 'P'
     COMPLETED = 'C'
 
-    STATUS_CHOICES = ((PENDING, _('pending')), (COMPLETED, ('completed')))
+    STATUS_CHOICES = ((PENDING, _('pending')), (COMPLETED, _('completed')))
 
     buyer = models.ForeignKey(
         User, related_name='orders', on_delete=models.CASCADE)

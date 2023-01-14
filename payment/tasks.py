@@ -6,7 +6,7 @@ from celery import shared_task
 @shared_task
 def send_payment_success_email_task(email_address):
     """
-    Celery task to send an email when payment is successfull
+    Celery task to send an email when payment is successful
     """
     send_mail(
         subject='Payment Successful',

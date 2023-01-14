@@ -91,7 +91,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
         #Update order
         instance.shipping_address = order_shipping_address
-        instance.biling_address = order_billing_address
+        instance.billing_address = order_billing_address
         instance.payment = order_payment
         instance.save()
 
